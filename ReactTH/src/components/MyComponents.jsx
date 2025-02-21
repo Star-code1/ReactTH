@@ -1,8 +1,9 @@
-import React, { Component, useState } from "react";
-import AddUserInfor from "./AddUserInfor"; // Đảm bảo tên import đúng
+import React, { useState } from "react";
+import AddUserInfor from "./AddUserInfor";
 import DisplayInfor from "./DisplayInfor";
+import "../Style.css"; // Import file CSS
 
-const MyComponents = (props) => {
+const MyComponents = () => {
   const [listUser, setListUser] = useState([
     { id: 1, Name: "Dung", Age: 49 },
     { id: 2, Name: "Hoang", Age: 34 },
@@ -10,17 +11,11 @@ const MyComponents = (props) => {
   ]);
 
   const handleAddnewUser = (userObject) => {
-    if (listUser.length >= 10) {
-      alert("Danh sách người dùng đã đầy");
-      return;
-    }
-    setListUser([userObject, ...listUser]);
+    setListUser((prev) => [{ ...userObject, id: Date.now() }, ...prev]);
   };
 
   const handleDeleteUser = (userID) => {
-    let listUserClone = listUser;
-    listUserClone = listUserClone.filter((item) => item.id !== userID);
-    setListUser(listUserClone);
+    setListUser((prev) => prev.filter((item) => item.id !== userID));
   };
 
   const handleDeleteAllUser = () => {
@@ -30,11 +25,6 @@ const MyComponents = (props) => {
   return (
     <div>
       <AddUserInfor handleAddnewUser={handleAddnewUser} />
-      <hr
-        className="h-1 bg-gradient-to-r from-red-500 
-      via-yellow-500 via-blue-500 via-green-500 via-purple-500
-      to-pink-500 border-0"
-      />
       <DisplayInfor
         listUser={listUser}
         handleDeleteUser={handleDeleteUser}

@@ -1,9 +1,11 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
+import "../Style.css"; // Import file CSS
 
 const AddUserInfor = (props) => {
-  const [Name, setName] = useState("");
-  const [Age, setAge] = useState("");
-  const [Address, setAddress] = useState("IUH");
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [address] = useState("IUH");
+
   const handleOnChangeInput = (event) => {
     setName(event.target.value);
   };
@@ -13,45 +15,48 @@ const AddUserInfor = (props) => {
   };
 
   const handleOnSubmit = (event) => {
-    event.preventDefault(); //ngăn việc tải lại trang
+    event.preventDefault();
+
+    if (!age || parseInt(age) <= 0) {
+      alert("Vui lòng nhập tuổi hợp lệ!");
+      return;
+    }
+
+
     props.handleAddnewUser({
-      id: Math.floor(Math.random() * 100 + 1) + "user",
-      Name: Name,
-      Age: Age,
-    });
+      id: crypto.randomUUID(),
+      Name: name, 
+      Age: parseInt(age),
+      address,
+    });    
+
+    setName("");
+    setAge("");
   };
+
   return (
-    <form
-      className="flex flex-col justify-center items-center"
-      onSubmit={(event) => handleOnSubmit(event)}
-    >
-      <label className="font-semibold mx-1">
+    <form className="form-container" onSubmit={handleOnSubmit}>
+      <label>
         Tên:
         <input
-          className="m-2 border border-gray-400 rounded py-2 w-90 pl-2"
+          className="input-field"
           type="text"
-          name="Name"
-          value={Name}
-          onChange={(event) => handleOnChangeInput(event)}
+          value={name}
+          onChange={handleOnChangeInput}
           required
         />
       </label>
-      <br />
-      <label className="font-semibold mx-1">
+      <label>
         Tuổi:
         <input
-          className="m-2 border border-gray-400 rounded py-2 w-90 pl-2"
+          className="input-field"
           type="number"
-          name="Age"
-          value={Age}
-          onChange={(event) => handleOnChangeAge(event)}
+          value={age}
+          onChange={handleOnChangeAge}
           required
         />
       </label>
-      <button
-        type="submit"
-        className="bg-green-700 text-white font-semibold mb-2 p-2 rounded cursor-pointer"
-      >
+      <button type="submit" className="btn-submit">
         Thêm người dùng
       </button>
     </form>
