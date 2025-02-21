@@ -32,7 +32,7 @@ const DisplayInfor = ({ listUser, handleDeleteUser, handleDeleteAllUser }) => {
           {listUser.map((user) => (
             <div key={user.id} className="form-container">
               <li className="user-item">
-                {user.Name} - {user.Age} tuổi
+               Đây là {user.Name} - {user.Age} tuổi
               </li>
               <button
                 onClick={() => handleDeleteUser(user.id)}
